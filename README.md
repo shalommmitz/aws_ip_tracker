@@ -18,6 +18,7 @@ It is advisable, for security reasons, to modify the hashes at the lines startin
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+pip install -U pip wheel setuptools
 pip install -r requirements.txt
 cdk bootstrap
 cdk deploy

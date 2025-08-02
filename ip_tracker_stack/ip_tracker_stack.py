@@ -1,6 +1,7 @@
 from aws_cdk import (
     Stack,
     CfnOutput,
+    RemovalPolicy,
     aws_lambda as lambda_,
     aws_dynamodb as ddb,
 )
@@ -17,9 +18,8 @@ class IpTrackerStack(Stack):
             self, "IpLogTable",
             partition_key={"name": "hash", "type": ddb.AttributeType.STRING},
             sort_key={"name": "timestamp", "type": ddb.AttributeType.STRING},
-            removal_policy=ddb.RemovalPolicy.DESTROY
+            removal_policy=RemovalPolicy.DESTROY
         )
-
         lambda_fn = lambda_.Function(
             self, "DynamicIpLoggerFunction",
             runtime=lambda_.Runtime.PYTHON_3_10,
