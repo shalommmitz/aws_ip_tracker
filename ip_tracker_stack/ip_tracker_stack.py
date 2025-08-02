@@ -2,10 +2,10 @@ from aws_cdk import (
     Stack,
     CfnOutput,
     aws_lambda as lambda_,
-    aws_apigatewayv2_alpha as apigw,
-    aws_apigatewayv2_integrations_alpha as integrations,
     aws_dynamodb as ddb,
 )
+from aws_cdk.aws_apigatewayv2 import HttpApi, CorsPreflightOptions, CorsHttpMethod, HttpMethod
+from aws_cdk.aws_apigatewayv2_integrations import HttpLambdaIntegration
 from constructs import Construct
 import os
 
@@ -34,19 +34,19 @@ class IpTrackerStack(Stack):
 
         table.grant_read_write_data(lambda_fn)
 
-        http_api = apigw.HttpApi(
+        http_api = HttpApi(
             self, "IpTrackerApi",
-            cors_preflight=apigw.CorsPreflightOptions(
-                allow_methods=[apigw.CorsHttpMethod.ANY],
+            cors_preflight=CorsPreflightOptions(
+                allow_methods=[CorsHttpMethod.ANY],
                 allow_origins=["*"]
             )
         )
 
-        integration = integrations.HttpLambdaIntegration("LambdaIntegration", lambda_fn)
+        integration = HttpLambdaIntegration("LambdaIntegration", lambda_fn)
 
         http_api.add_routes(
             path="/{proxy+}",
-            methods=[apigw.HttpMethod.ANY],
+            methods=[HttpMethod.ANY],
             integration=integration
         )
 

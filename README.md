@@ -16,8 +16,8 @@ This project provides an AWS-based service that allows clients with changing IP 
 It is advisable, for security reasons, to modify the hashes at the lines starting with "HASH_LIST" and "MANAGE LIST"
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 cdk bootstrap
 cdk deploy
