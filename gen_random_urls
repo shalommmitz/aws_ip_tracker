@@ -6,7 +6,9 @@ for i in range(10):
     hashes += f"{secrets.randbits(32):08X},"
 hashes = hashes[:-1] +'",'
 print(hashes)
-manage_hash = f'                "MANAGE_HASH": {secrets.randbits(32):08X}"'
+manage_hash = f'                "MANAGE_HASH": "{secrets.randbits(32):08X}"'
 print(manage_hash)
+
+# Examples:
 #                "HASH_LIST": "AB12CD34,DEADBEEF,CAFEBABE,8BADF00D",
 #                "MANAGE_HASH": "ADMIN123"
