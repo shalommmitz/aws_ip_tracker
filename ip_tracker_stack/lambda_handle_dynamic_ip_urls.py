@@ -21,7 +21,7 @@ def handler(event, context):
         log_ip(path, source_ip, now)
         return {
             "statusCode": 200,
-            "body": f"Logged IP for hash {path}"
+            "body": f"Ok"
         }
 
     return {"statusCode": 404, "body": "Not found"}
@@ -40,7 +40,10 @@ def log_ip(hash_val, ip, timestamp):
 def trim_old_entries(hash_val):
     response = dynamodb.query(
         TableName=table_name,
-        KeyConditionExpression="hash = :h",
+        KeyConditionExpression="#h = :h",
+        ExpressionAttributeNames={
+            "#h": "hash"
+        },
         ExpressionAttributeValues={":h": {"S": hash_val}},
         ScanIndexForward=False
     )
