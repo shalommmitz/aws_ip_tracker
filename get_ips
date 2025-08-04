@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+import os, yaml, requests
+from datetime import datetime
+
+if not os.path.isfile("info.yaml"):
+    print("Could not find the file 'info.yaml' - Aborting")
+    exit()
+info = yaml.safe_load(open("info.yaml"))
+if "manag_url" not in info.keys():
+    print("The entry for the managment URL (manag_url) is missing at the info file - Aborting")
+    exit()
+manag_url = info["manag_url"]
+ans = requests.get(manag_url).json()
+latest_ips = {}
+for entry in ans:
+    hash = entry["hash"]
+    timestamp = datetime.fromisoformat(entry["timestamp"])
+    if hash not in latest_ips.keys():
+        entry["timestamp"] = timestamp
+        latest_ips[hash] = entry
+        continue
+    if timestamp>latest_ips[hash]["timestamp"]:
+        entry["timestamp"] = timestamp
+        latest_ips[hash] = entry
+for hash in latest_ips.keys():
+    entry = latest_ips[hash]
+    host = info["hashes"][entry["hash"]].ljust(15)
+    ip = entry["ip"].ljust(15)
+    timestamp = entry["timestamp"].strftime("%d%b %H:%M")
+    print(f"{host} {ip}  {timestamp}") 

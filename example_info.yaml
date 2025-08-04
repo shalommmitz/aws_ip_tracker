@@ -1,0 +1,5 @@
+base_url: https://EXAMPLE.execute-api.us-west-2.amazonaws.com
+manag_url: https://EXAMPLE.execute-api.us-west-2.amazonaws.com/manage/01234567
+hashes:
+   "0000F000": remoteHost
+   "1111F111": veryRemoteHost
